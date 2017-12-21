@@ -1,5 +1,5 @@
 <template>
-	<div :class="isMobile?'text-primary':'text-success'">HELLO</div>
+	<div :class="isMobile?'_text-primary':'_text-success'">HELLO</div>
 </template>
 
 <script>
