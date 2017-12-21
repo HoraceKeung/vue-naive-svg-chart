@@ -11,6 +11,10 @@
 	"dependencies": {
 		"lodash": "^4.17.4"
 	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/HoraceKeung/vue-naive-svg-chart"
+	},
 	"devDependencies": {
 		"babel-core": "^6.10.4",
 		"babel-loader": "^6.2.4",
