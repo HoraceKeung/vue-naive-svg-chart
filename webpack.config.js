@@ -24,13 +24,6 @@ var config = {
 			}
 		]
 	},
-	externals: {
-		lodash : {
-			commonjs: "lodash",
-			amd: "lodash",
-			root: "_" // indicates global variable
-		}
-	},
 	plugins: [
 		new webpack.optimize.UglifyJsPlugin( {
 			minimize : true,

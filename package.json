@@ -8,9 +8,7 @@
   },
   "author": "Horace Keung",
   "license": "MIT",
-  "dependencies": {
-    "lodash": "^4.17.4"
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HoraceKeung/vue-naive-svg-chart"
