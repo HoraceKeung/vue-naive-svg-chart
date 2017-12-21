@@ -1,6 +1,6 @@
 {
   "name": "vue-naive-svg-chart",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Vue.js components that draw naive svg charts",
   "main": "dist/vue-naive-svg-chart.js",
   "scripts": {
