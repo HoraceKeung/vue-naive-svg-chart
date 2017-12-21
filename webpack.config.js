@@ -24,6 +24,13 @@ var config = {
 			}
 		]
 	},
+	externals: {
+		lodash: {
+			commonjs: 'lodash',
+			amd: 'lodash',
+			root: '_'
+		}
+	},
 	plugins: [
 		new webpack.optimize.UglifyJsPlugin( {
 			minimize : true,

@@ -4,11 +4,14 @@
   "description": "Vue.js components that draw naive svg charts",
   "main": "dist/vue-naive-svg-chart.js",
   "scripts": {
-    "build": "rimraf ./dist && webpack --config ./webpack.config.js"
+    "build": "rimraf ./dist && webpack --config ./webpack.config.js",
+    "bpp": "npm run build && npm version patch && npm publish"
   },
   "author": "Horace Keung",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HoraceKeung/vue-naive-svg-chart"
