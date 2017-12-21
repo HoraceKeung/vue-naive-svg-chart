@@ -1,10 +1,13 @@
 <template>
-	<div :class="isMobile?'text-primary':'text-success'">HELLO</div>
+	<div :class="isMobile?'text-primary':'text-success'">{{word}}</div>
 </template>
 
 <script>
 import _ from 'lodash'
 export default {
+	props: {
+		word: {type: String, required: true}
+	},
 	mounted () {
 		this.$nextTick(() => {
 			this.checkIsMobile()
