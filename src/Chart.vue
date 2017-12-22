@@ -7,6 +7,7 @@ export default {
 	components: (() => {
 		const context = require.context('./types', false, /\.vue$/)
 		return context.keys().map(k => context(k)).reduce((obj, comp) => {
+			console.log(JSON.stringify(comp, null, 4))
 			obj[comp.default.name] = comp.default
 			return obj
 		}, {})
