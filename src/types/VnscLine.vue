@@ -8,6 +8,3 @@ export default {
 	props: ['title', 'fontSize', 'padding', 'dataset', 'labels', 'showLegend']
 }
 </script>
-
-<style scoped>
-</style>
