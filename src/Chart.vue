@@ -1,35 +1,27 @@
 <template>
-	<div :class="isMobile?'text-primary':'text-success'">{{word}}</div>
+	<component :is="'vnsc-'+type" :title="title" :fontSize="fontSize" :padding="padding" :dataset="dataset" :labels="labels" :showLegend="showLegend"></component>
 </template>
 
 <script>
-import _ from 'lodash'
 export default {
+	components: (() => {
+		const context = require.context('./types', false, /\.vue$/)
+		return context.keys().map(k => context(k)).reduce((obj, comp) => {
+			obj[comp.default.name] = comp.default
+			return obj
+		}, {})
+	})(),
 	props: {
-		word: {type: String, required: true}
-	},
-	mounted () {
-		this.$nextTick(() => {
-			this.checkIsMobile()
-			window.addEventListener('resize', _.throttle(() => {
-				this.checkIsMobile()
-			}, 100))
-		})
-	},
-	beforeDestroy () {
-		window.removeEventListener('resize', _.throttle(() => {
-			this.checkIsMobile()
-		}, 100))
-	},
-	methods: {
-		checkIsMobile () {
-			this.isMobile = (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) <= 767
-		}
-	},
-	data () {
-		return {
-			isMobile: false
-		}
+		type: {type: String, required: true},
+		title: String,
+		fontSize: {type: Number, default: 16},
+		padding: {type: Number, default: 16},
+		dataset: {type: Array, required: true},
+		labels: {type: Array, required: true},
+		showLegend: {type: Boolean, default: true}
 	}
 }
 </script>
+
+<style scoped>
+</style>
