@@ -2,7 +2,7 @@ import _ from 'lodash'
 import Axes from './parts/Axes.vue'
 
 const mixin = {
-	lineAndCol: {
+	generic: {
 		props: ['id', 'type', 'title', 'fontSize', 'padding', 'dataset', 'labels', 'showLegend', 'color', 'axesStrokeWidth', 'stack'],
 		components: {Axes},
 		mounted () {
@@ -18,6 +18,15 @@ const mixin = {
 			dataset (newVal) { this.compute(newVal) },
 			stack () { this.compute(this.dataset) }
 		},
+		data () {
+			return {
+				biggest: 100,
+				max: 100,
+				longestLabelLength: 100,
+				innerWidth: 100,
+				innerHeight: 100
+			}
+		},
 		methods: {
 			computeStack (dataset) {
 				var output = []
@@ -29,32 +38,18 @@ const mixin = {
 				}
 				return output
 			},
-			compute (dataset) {
+			genericCompute (dataset) {
 				const ele = document.getElementById(this.id)
 				this.longestLabelLength = this.labels.slice(0).sort((a, b) => { return b.length - a.length })[0].length * 10
 				this.innerWidth = ele.getBoundingClientRect().width - (this.padding * 2) - this.yAxisSpace
 				this.innerHeight = ele.getBoundingClientRect().height - (this.padding * 2) - this.xAxisSpace
-				const tempDataArr = this.type === 'column' && this.stack ? this.computeStack(dataset) : _.flatten(dataset.map(d => { return d.data }))
-				const biggest = tempDataArr.reduce((a, b) => { return Math.max(a, b) })
-				this.max = Math.ceil(biggest / this.yStepBaseFactor) * this.yStepBaseFactor
-				this.yStepSize = this.yStepBaseFactor
-				while (this.innerHeight / (this.max / this.yStepSize) < this.fontSize) {
-					this.yStepSize += this.yStepBaseFactor
-				}
-				this.max = Math.ceil(biggest / this.yStepSize) * this.yStepSize
+				const tempDataArr = (this.type === 'column' || this.type === 'bar') && this.stack ? this.computeStack(dataset) : _.flatten(dataset.map(d => { return d.data }))
+				this.biggest = tempDataArr.reduce((a, b) => { return Math.max(a, b) })
+				this.max = Math.ceil(this.biggest / this.stepBaseFactor) * this.stepBaseFactor
 			}
 		},
 		computed: {
-			yAxisSpace () {
-				return this.max.toString().length * 10
-			},
-			needRotateLabel () {
-				return this.longestLabelLength > this.innerWidth / this.labels.length
-			},
-			xAxisSpace () {
-				return this.needRotateLabel ? Math.sqrt((this.longestLabelLength ** 2) / 2) : this.fontSize
-			},
-			yStepBaseFactor () {
+			stepBaseFactor () {
 				const tens = 10 ** (this.max.toString().length - 2)
 				switch (this.max.toString().charAt(0)) {
 				case '1':
@@ -72,14 +67,33 @@ const mixin = {
 					return 10 * tens
 				}
 			}
+		}
+	},
+	lineAndCol: {
+		methods: {
+			compute (dataset) {
+				this.genericCompute(dataset)
+				this.yStepSize = this.stepBaseFactor
+				while (this.innerHeight / (this.max / this.yStepSize) < this.fontSize) {
+					this.yStepSize += this.stepBaseFactor
+				}
+				this.max = Math.ceil(this.biggest / this.yStepSize) * this.yStepSize
+			}
+		},
+		computed: {
+			yAxisSpace () {
+				return this.max.toString().length * 10
+			},
+			needRotateLabel () {
+				return this.longestLabelLength > this.innerWidth / this.labels.length
+			},
+			xAxisSpace () {
+				return this.needRotateLabel ? Math.sqrt((this.longestLabelLength ** 2) / 2) : this.fontSize
+			}
 		},
 		data () {
 			return {
-				max: 100,
-				yStepSize: 100,
-				longestLabelLength: 100,
-				innerWidth: 100,
-				innerHeight: 100
+				yStepSize: 100
 			}
 		}
 	}

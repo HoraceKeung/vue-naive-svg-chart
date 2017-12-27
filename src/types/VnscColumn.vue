@@ -11,7 +11,7 @@
 import mixin from '../mixin.js'
 export default {
 	name: 'VnscColumn',
-	mixins: [mixin.lineAndCol],
+	mixins: [mixin.generic, mixin.lineAndCol],
 	methods: {
 		calH (d) { return this.innerHeight * (d / this.max) },
 		cumulativeH (index, i) {

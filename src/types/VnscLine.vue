@@ -12,7 +12,7 @@
 import mixin from '../mixin.js'
 export default {
 	name: 'VnscLine',
-	mixins: [mixin.lineAndCol],
+	mixins: [mixin.generic, mixin.lineAndCol],
 	methods: {
 		calX (index) {
 			return (this.innerWidth / this.labels.length) * (index + 0.5) + this.padding + this.yAxisSpace
