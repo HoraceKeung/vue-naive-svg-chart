@@ -3,7 +3,7 @@ import Axes from './parts/Axes.vue'
 
 const mixin = {
 	lineAndCol: {
-		props: ['id', 'title', 'fontSize', 'padding', 'dataset', 'labels', 'showLegend', 'color', 'axesStrokeWidth'],
+		props: ['id', 'type', 'title', 'fontSize', 'padding', 'dataset', 'labels', 'showLegend', 'color', 'axesStrokeWidth', 'stack'],
 		components: {Axes},
 		mounted () {
 			this.$nextTick(() => {
@@ -15,15 +15,27 @@ const mixin = {
 			window.removeEventListener('resize', _.throttle(() => { this.compute(this.dataset) }, 100))
 		},
 		watch: {
-			dataset (newVal) { this.compute(newVal) }
+			dataset (newVal) { this.compute(newVal) },
+			stack () { this.compute(this.dataset) }
 		},
 		methods: {
+			computeStack (dataset) {
+				var output = []
+				for (let i = 0; i < dataset.length; i++) {
+					for (let j = 0; j < dataset[i].data.length; j++) {
+						if (i === 0) { output.push(0) }
+						output[j] = output[j] + dataset[i].data[j]
+					}
+				}
+				return output
+			},
 			compute (dataset) {
 				const ele = document.getElementById(this.id)
 				this.longestLabelLength = this.labels.slice(0).sort((a, b) => { return b.length - a.length })[0].length * 10
 				this.innerWidth = ele.getBoundingClientRect().width - (this.padding * 2) - this.yAxisSpace
 				this.innerHeight = ele.getBoundingClientRect().height - (this.padding * 2) - this.xAxisSpace
-				const biggest = _.flatten(dataset.map(d => { return d.data })).reduce((a, b) => { return Math.max(a, b) })
+				const tempDataArr = this.type === 'column' && this.stack ? this.computeStack(dataset) : _.flatten(dataset.map(d => { return d.data }))
+				const biggest = tempDataArr.reduce((a, b) => { return Math.max(a, b) })
 				this.max = Math.ceil(biggest / this.yStepBaseFactor) * this.yStepBaseFactor
 				this.yStepSize = this.yStepBaseFactor
 				while (this.innerHeight / (this.max / this.yStepSize) < this.fontSize) {

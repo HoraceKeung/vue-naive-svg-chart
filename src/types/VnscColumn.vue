@@ -12,22 +12,37 @@ import mixin from '../mixin.js'
 export default {
 	name: 'VnscColumn',
 	mixins: [mixin.lineAndCol],
+	methods: {
+		calH (d) { return this.innerHeight * (d / this.max) },
+		cumulativeH (index, i) {
+			let output = 0
+			for (let j = 0; j < index; j++) {
+				output += this.calH(this.dataset[j].data[i])
+			}
+			return output
+		},
+		computeRect (data, index) {
+			const colWidth = this.innerWidth / this.labels.length / (this.stack ? 2 : this.dataset.length + 1)
+			var output = []
+			for (let i = 0; i < data.length; i++) {
+				output.push({
+					val: data[i],
+					x: this.padding + this.yAxisSpace + (this.innerWidth / this.labels.length * i) + (this.stack ? 0 : colWidth * index) + colWidth / 2,
+					y: this.padding + this.innerHeight - this.calH(data[i]) - (this.stack ? this.cumulativeH(index, i) : 0),
+					width: colWidth,
+					height: this.calH(data[i])
+				})
+			}
+			return output
+		}
+	},
 	computed: {
 		columns () {
-			const colWidth = this.innerWidth / this.labels.length / (this.dataset.length + 1)
-			return this.dataset.map((col, i1) => {
+			return this.dataset.map((col, index) => {
 				return {
 					color: col.color,
 					label: col.label,
-					rect: col.data.map((d, i2) => {
-						return {
-							val: d,
-							x: this.padding + this.yAxisSpace + (this.innerWidth / this.labels.length * i2) + (colWidth * i1) + (colWidth / 2),
-							y: this.padding + this.innerHeight * (1 - (d / this.max)),
-							width: colWidth,
-							height: this.innerHeight * (d / this.max)
-						}
-					})
+					rect: this.computeRect(col.data, index)
 				}
 			})
 		}
