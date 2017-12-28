@@ -1,9 +1,19 @@
 <template>
-	<div class="chartCont" :id="id"><div>
-		<svg>
-			<component :is="'vnsc-'+type" :id="id" :type="type" :fontSize="fontSize" :padding="padding" :dataset="dataset" :labels="labels" :showLegend="showLegend" :color="color" :axesStrokeWidth="axesStrokeWidth" :stack="stack"></component>
-		</svg>
-	</div></div>
+	<div>
+		<div v-if="showLegend" class="legend">
+			<ul>
+				<li v-for="(d,index) in dataset" @click="toggleLegend(index)" :style="'opacity: '+(filterIndex.includes(index)?'0.25':'1')+';'">
+					<label :style="'background-color: '+d.color+'; margin: auto '+fontSize/2+'px; width: '+fontSize+'px; height: '+fontSize+'px; border-radius: '+fontSize/4+'px;'" />
+					<span>{{d.label}}</span>
+				</li>
+			</ul>
+		</div>
+		<div class="chartCont" :id="id"><div>
+			<svg>
+				<component :is="'vnsc-'+type" :id="id" :type="type" :fontSize="fontSize" :padding="padding" :dataset="computedDataset" :labels="labels" :showLegend="showLegend" :color="color" :axesStrokeWidth="axesStrokeWidth" :stack="stack"></component>
+			</svg>
+		</div></div>
+	</div>
 </template>
 
 <script>
@@ -26,11 +36,48 @@ export default {
 		color: {type: String, default: '#000'},
 		axesStrokeWidth: {type: Number, default: 2},
 		stack: {type: Boolean, default: false}
+	},
+	computed: {
+		computedDataset () {
+			return this.dataset.filter((d, index) => {
+				return !this.filterIndex.includes(index)
+			})
+		}
+	},
+	data () {
+		return {
+			filterIndex: []
+		}
+	},
+	methods: {
+		toggleLegend (index) {
+			const i = this.filterIndex.indexOf(index)
+			if (i >= 0) {
+				this.filterIndex.splice(i, 1)
+			} else if (this.filterIndex.length !== this.dataset.length - 1) {
+				this.filterIndex.push(index)
+			}
+		}
 	}
 }
 </script>
 
 <style scoped>
+.legend {
+	text-align: center;
+}
+.legend ul {
+	list-style-type: none;
+	margin: 0;
+}
+.legend li {
+	display: inline-flex;
+	margin: 0 10px;
+	cursor: pointer;
+}
+.legend label {
+	cursor: pointer;
+}
 .chartCont {
 	padding-top: 56.25%;
 	position: relative;
