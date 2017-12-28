@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import Axes from './parts/Axes.vue'
-import PopUp from '~/components/parts/PopUp.vue'
+import PopUp from './parts/PopUp.vue'
 
 const mixin = {
 	generic: {
