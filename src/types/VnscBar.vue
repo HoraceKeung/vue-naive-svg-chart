@@ -2,8 +2,9 @@
 	<g>
 		<axes :fontSize="fontSize" :padding="padding" :labels="labels" :color="color" :axesStrokeWidth="axesStrokeWidth" :innerWidth="innerWidth" :innerHeight="innerHeight" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :max="max" :xStepSize="xStepSize" :needRotateLabel="false" />
 		<g v-for="b in bars" :fill="b.color">
-			<rect v-for="r in b.rect" :x="r.x" :y="r.y" :width="r.width" :height="r.height" />
+			<rect v-for="(r,index) in b.rect" :x="r.x" :y="r.y" :width="r.width" :height="r.height" :style="'opacity: '+(index===hovered?'0.6':'1')+';'" />
 		</g>
+		<pop-up :dataset="dataset" :labels="labels" :innerWidth="innerWidth" :padding="padding" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :axesStrokeWidth="axesStrokeWidth" :innerHeight="innerHeight" :fontSize="fontSize" :type="type" :hovered.sync="hovered" />
 	</g>
 </template>
 

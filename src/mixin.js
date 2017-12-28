@@ -1,10 +1,11 @@
 import _ from 'lodash'
 import Axes from './parts/Axes.vue'
+import PopUp from '~/components/parts/PopUp.vue'
 
 const mixin = {
 	generic: {
-		props: ['id', 'type', 'title', 'fontSize', 'padding', 'dataset', 'labels', 'showLegend', 'color', 'axesStrokeWidth', 'stack'],
-		components: {Axes},
+		props: ['id', 'type', 'fontSize', 'padding', 'dataset', 'labels', 'showLegend', 'color', 'axesStrokeWidth', 'stack'],
+		components: {Axes, PopUp},
 		mounted () {
 			this.$nextTick(() => {
 				this.compute(this.dataset)
@@ -24,7 +25,8 @@ const mixin = {
 				max: 100,
 				longestLabelLength: 100,
 				innerWidth: 100,
-				innerHeight: 100
+				innerHeight: 100,
+				hovered: null
 			}
 		},
 		methods: {

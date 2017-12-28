@@ -1,7 +1,7 @@
 <template>
 	<div class="chartCont" :id="id"><div>
 		<svg>
-			<component :is="'vnsc-'+type" :id="id" :type="type" :title="title" :fontSize="fontSize" :padding="padding" :dataset="dataset" :labels="labels" :showLegend="showLegend" :color="color" :axesStrokeWidth="axesStrokeWidth" :stack="stack"></component>
+			<component :is="'vnsc-'+type" :id="id" :type="type" :fontSize="fontSize" :padding="padding" :dataset="dataset" :labels="labels" :showLegend="showLegend" :color="color" :axesStrokeWidth="axesStrokeWidth" :stack="stack"></component>
 		</svg>
 	</div></div>
 </template>
@@ -18,7 +18,6 @@ export default {
 	props: {
 		id: {type: String, required: true},
 		type: {type: String, required: true},
-		title: String,
 		fontSize: {type: Number, default: 16},
 		padding: {type: Number, default: 16},
 		dataset: {type: Array, required: true},
