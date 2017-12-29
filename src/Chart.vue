@@ -4,7 +4,7 @@
 			<ul>
 				<li v-for="(d,index) in dataset" @click="toggleLegend(index)" :style="'opacity: '+(filterIndex.includes(index)?'0.25':'1')+';'">
 					<label :style="'background-color: '+d.color+'; margin: auto '+fontSize/2+'px; width: '+fontSize+'px; height: '+fontSize+'px; border-radius: '+fontSize/4+'px;'" />
-					<span>{{d.label}}</span>
+					<span :style="'color: '+color+';'">{{d.label}}</span>
 				</li>
 			</ul>
 		</div>

@@ -1,5 +1,6 @@
 # Introduction
 A naive implementation of a few charts with Vue.js. The charts are created using HTML5 SVG.
+- [Live Demo](https://horacekeung.github.io/sandbox/vnsc/)
 
 # Installation
 ```
@@ -50,4 +51,4 @@ props: {
 - Available chart types are: `'line'`, `'column'`, and `'bar'`.
 - `'column'` and `'bar'` charts can be stacked by setting `'stack'` to `'true'`
 - Legend can be hidden by setting `'showLegend'` to `'false'`
-- `'color'` controls the colour of the axes
+- `'color'` controls the colour of the axes and legend text
