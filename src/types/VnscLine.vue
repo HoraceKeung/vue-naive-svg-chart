@@ -1,11 +1,11 @@
 <template>
 	<g>
-		<axes :fontSize="fontSize" :padding="padding" :labels="labels" :color="color" :axesStrokeWidth="axesStrokeWidth" :innerWidth="innerWidth" :innerHeight="innerHeight" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :max="max" :yStepSize="yStepSize" :needRotateLabel="needRotateLabel" />
+		<axes :fontSize="fontSize" :padding="padding" :labels="labels" :color="color" :axesStrokeWidth="axesStrokeWidth" :innerWidth="innerWidth" :innerHeight="innerHeight" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :max="max" :min="min" :yStepSize="yStepSize" :needRotateLabel="needRotateLabel" />
 		<g v-for="l in lines">
 			<polyline :points="l.linePoints" :style="'fill: none; stroke: '+l.color+'; stroke-width: 2;'" />
 			<circle v-for="(p,index) in l.points" :cx="p.x" :cy="p.y" :r="circleR(index)" :style="'transition: r 0.15s ease-out; fill: #fff; stroke: '+l.color+'; stroke-width: '+circleR(index)/2+';'" />
 		</g>
-		<pop-up :dataset="dataset" :labels="labels" :innerWidth="innerWidth" :padding="padding" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :axesStrokeWidth="axesStrokeWidth" :innerHeight="innerHeight" :fontSize="fontSize" :hovered.sync="hovered" />
+		<pop-up :dataset="dataset" :labels="labels" :innerWidth="innerWidth" :padding="padding" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :innerHeight="innerHeight" :fontSize="fontSize" :hovered.sync="hovered" />
 	</g>
 </template>
 
@@ -19,7 +19,7 @@ export default {
 			return (this.innerWidth / this.labels.length) * (index + 0.5) + this.padding + this.yAxisSpace
 		},
 		calY (d) {
-			return this.padding + this.innerHeight * (1 - (d / this.max))
+			return this.padding + this.innerHeight * (1 - ((d - this.min) / (this.max - this.min)))
 		},
 		circleR (index) {
 			const base = Math.min(Math.max(this.innerWidth / this.labels.length / 20, 2), this.fontSize / 4)

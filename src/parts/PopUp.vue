@@ -15,7 +15,7 @@
 
 <script>
 export default {
-	props: ['dataset', 'labels', 'innerWidth', 'padding', 'yAxisSpace', 'xAxisSpace', 'axesStrokeWidth', 'innerHeight', 'fontSize', 'type', 'hovered'],
+	props: ['dataset', 'labels', 'innerWidth', 'padding', 'yAxisSpace', 'xAxisSpace', 'innerHeight', 'fontSize', 'type', 'hovered'],
 	computed: {
 		line () {
 			const X = this.padding + this.yAxisSpace + this.innerWidth / this.labels.length * (this.hovered + 0.5)
@@ -30,7 +30,7 @@ export default {
 		hoverRects () {
 			return this.labels.map((x, index) => {
 				return {
-					x: (this.type === 'bar' ? 0 : this.innerWidth / this.labels.length * index) + this.padding + this.yAxisSpace + this.axesStrokeWidth / 2,
+					x: (this.type === 'bar' ? 0 : this.innerWidth / this.labels.length * index) + this.padding + this.yAxisSpace,
 					y: this.padding + (this.type === 'bar' ? this.innerHeight / this.labels.length * index : 0),
 					w: this.type === 'bar' ? this.innerWidth : this.innerWidth / this.labels.length,
 					h: this.type === 'bar' ? this.innerHeight / this.labels.length : this.innerHeight

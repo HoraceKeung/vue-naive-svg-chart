@@ -23,6 +23,8 @@ const mixin = {
 			return {
 				biggest: 100,
 				max: 100,
+				smallest: -100,
+				min: -100,
 				longestLabelLength: 100,
 				innerWidth: 100,
 				innerHeight: 100,
@@ -48,12 +50,16 @@ const mixin = {
 				const tempDataArr = (this.type === 'column' || this.type === 'bar') && this.stack ? this.computeStack(dataset) : _.flatten(dataset.map(d => { return d.data }))
 				this.biggest = tempDataArr.reduce((a, b) => { return Math.max(a, b) })
 				this.max = Math.ceil(this.biggest / this.stepBaseFactor) * this.stepBaseFactor
+				this.smallest = tempDataArr.reduce((a, b) => { return Math.min(a, b) })
+				this.min = Math.floor(this.smallest / this.stepBaseFactor) * this.stepBaseFactor
+				this.min = this.min > 0 ? 0 : this.min
 			}
 		},
 		computed: {
 			stepBaseFactor () {
-				const tens = 10 ** (this.max.toString().length - 2)
-				switch (this.max.toString().charAt(0)) {
+				let range = this.min >= 0 ? this.max : this.max - this.min
+				const tens = 10 ** (range.toString().length - 2)
+				switch (range.toString().charAt(0)) {
 				case '1':
 				case '2':
 					return 1 * tens
@@ -76,15 +82,18 @@ const mixin = {
 			compute (dataset) {
 				this.genericCompute(dataset)
 				this.yStepSize = this.stepBaseFactor
-				while (this.innerHeight / (this.max / this.yStepSize) < this.fontSize) {
+				let range = this.min >= 0 ? this.max : this.max - this.min
+				while (this.innerHeight / (range / this.yStepSize) < this.fontSize) {
 					this.yStepSize += this.stepBaseFactor
+					this.max = Math.ceil(this.biggest / this.yStepSize) * this.yStepSize
+					this.min = Math.floor(this.smallest / this.yStepSize) * this.yStepSize
+					this.min = this.min > 0 ? 0 : this.min
 				}
-				this.max = Math.ceil(this.biggest / this.yStepSize) * this.yStepSize
 			}
 		},
 		computed: {
 			yAxisSpace () {
-				return this.max.toString().length * 10
+				return Math.max(this.max.toString().length, this.min.toString().length) * 10
 			},
 			needRotateLabel () {
 				return this.longestLabelLength > this.innerWidth / this.labels.length
