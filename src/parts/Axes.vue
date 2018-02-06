@@ -32,7 +32,8 @@ export default {
 			return this.labels.map((l, index) => {
 				const x = this.yStepSize ? this.yAxisSpace + this.padding + ((index + 0.5) * this.innerWidth / this.labels.length) : this.yAxisSpace + this.padding * 3 / 4
 				const y = this.yStepSize ? this.innerHeight + this.padding + 10 + (this.needRotateLabel ? 0 : this.xAxisSpace) : (index + 0.5) * this.innerHeight / this.labels.length + this.fontSize / 2 + this.padding
-				return {val: l, x, y, r: 'rotate(' + (this.needRotateLabel ? '-45' : '0') + ',' + x + ', ' + y + ')'}
+				const val = typeof l === 'string' ? l : l.value
+				return {val, x, y, r: 'rotate(' + (this.needRotateLabel ? '-45' : '0') + ',' + x + ', ' + y + ')'}
 			})
 		},
 		computedXStepSize () {
