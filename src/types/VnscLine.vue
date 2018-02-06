@@ -22,7 +22,7 @@ export default {
 			return this.padding + this.innerHeight * (1 - ((d - this.min) / (this.max - this.min)))
 		},
 		circleR (index) {
-			const base = Math.min(Math.max(this.innerWidth / this.labels.length / 20, 2), this.fontSize / 4)
+			const base = Math.min(Math.max((this.innerWidth / this.labels.length) / 10, 4), this.fontSize / 4)
 			return index === this.hovered ? base * 2 : base
 		}
 	},
