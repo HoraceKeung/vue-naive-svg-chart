@@ -44,7 +44,9 @@ const mixin = {
 			},
 			genericCompute (dataset) {
 				const ele = document.getElementById(this.id)
-				this.longestLabelLength = this.labels.slice(0).sort((a, b) => { return b.length - a.length })[0].length * 10
+				this.longestLabelLength = this.labels.map(l => {
+					return typeof l === 'string' ? l : l.value
+				}).sort((a, b) => { return b.length - a.length })[0].length * 10
 				this.innerWidth = ele.getBoundingClientRect().width - (this.padding * 2) - this.yAxisSpace
 				this.innerHeight = ele.getBoundingClientRect().height - (this.padding * 2) - this.xAxisSpace
 				const tempDataArr = (this.type === 'column' || this.type === 'bar') && this.stack ? this.computeStack(dataset) : _.flatten(dataset.map(d => { return d.data }))

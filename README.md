@@ -23,7 +23,10 @@ export default {
 				{data: [720, 513, 376, 54, 13, 21, 90], color: 'green', label: 'data2'},
 				{data: [560, 319, 62, 75, 807, 497, 641], color: 'blue', label: 'data3'}
 			],
-			labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+			labels: [{
+				value: 'Monday',
+				popUp: 'Monday (New year)'
+			}, 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 		}
 	}
 }
