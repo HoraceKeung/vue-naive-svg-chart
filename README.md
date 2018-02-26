@@ -48,10 +48,17 @@ props: {
 	showLegend: {type: Boolean, default: true},
 	color: {type: String, default: '#000'},
 	axesStrokeWidth: {type: Number, default: 2},
-	stack: {type: Boolean, default: false}
+	stack: {type: Boolean, default: false},
+	lineFill: {type: String, default: 'none'},
+	lineFillOpacity: {type: Number, default: 0.6}
 }
 ```
 - Available chart types are: `'line'`, `'column'`, and `'bar'`.
 - `'column'` and `'bar'` charts can be stacked by setting `'stack'` to `'true'`
 - Legend can be hidden by setting `'showLegend'` to `'false'`
 - `'color'` controls the colour of the axes and legend text
+- `'line'` chart can have fill below the line by setting `'lineFill'` to `'solid'` or `'gradient'`
+
+## class and id
+- Pop up rect has class name of `"id+'-pop-up-rect'"` where `'id'` is the id of the chart
+- Line chart data point circle has id of `"id+'-'+l.label+'-data-point-'+index"` where `'id'` is the id of the chart, `'l.label'` is the label for that specific line, and `'index'` is the index of that specific data point in the data array. For example, a line chart with id `'chart1'` and one of the line has label `'line1'`, then the first data point circle will have id of `'chart1-line1-data-point-0'`

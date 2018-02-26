@@ -4,7 +4,7 @@
 		<g v-for="b in bars" :fill="b.color">
 			<rect v-for="(r,index) in b.rect" :x="r.x" :y="r.y" :width="r.width" :height="r.height" :style="'opacity: '+(index===hovered?'0.6':'1')+';'" />
 		</g>
-		<pop-up :dataset="dataset" :labels="labels" :innerWidth="innerWidth" :padding="padding" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :innerHeight="innerHeight" :fontSize="fontSize" :type="type" :hovered.sync="hovered" />
+		<pop-up :id="id" :dataset="dataset" :labels="labels" :innerWidth="innerWidth" :padding="padding" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :innerHeight="innerHeight" :fontSize="fontSize" :type="type" :hovered.sync="hovered" />
 	</g>
 </template>
 

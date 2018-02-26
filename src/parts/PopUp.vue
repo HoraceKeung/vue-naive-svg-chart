@@ -3,7 +3,7 @@
 		<rect @mousemove="trackMouse($event, index)" @mouseover="$emit('update:hovered', index)" @mouseout="$emit('update:hovered', null)" fill="transparent" v-for="(r,index) in hoverRects" :x="r.x" :y="r.y" :width="r.w" :height="r.h" />
 		<g v-if="hovered!==null&&mousePos">
 			<line :x1="line.x1" :y1="line.y1" :x2="line.x2" :y2="line.y2" stroke="rgba(0,0,0,0.6)"/>
-			<rect :x="popUp.x" :y="popUp.y" :width="popUp.width" :height="popUp.height" :rx="fontSize/4" :ry="fontSize/4" fill="rgba(0,0,0,0.6)" />
+			<rect :class="id+'-pop-up-rect'" :x="popUp.x" :y="popUp.y" :width="popUp.width" :height="popUp.height" :rx="fontSize/4" :ry="fontSize/4" fill="rgba(0,0,0,0.6)" />
 			<text :x="popUp.x+padding/2" :y="popUp.y+fontSize+padding/2" fill="#fff">{{typeof labels[hovered] === 'string' ? labels[hovered] : labels[hovered].popUp}}</text>
 			<g v-for="(d,index) in dataset">
 				<rect :x="popUp.x+padding/2" :y="popUp.y+padding/2+(fontSize+padding/2)*(index+1)" :width="fontSize" :height="fontSize" :fill="d.color" :rx="fontSize/2" :ry="fontSize/2" />
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-	props: ['dataset', 'labels', 'innerWidth', 'padding', 'yAxisSpace', 'xAxisSpace', 'innerHeight', 'fontSize', 'type', 'hovered'],
+	props: ['id', 'dataset', 'labels', 'innerWidth', 'padding', 'yAxisSpace', 'xAxisSpace', 'innerHeight', 'fontSize', 'type', 'hovered'],
 	computed: {
 		line () {
 			const X = this.padding + this.yAxisSpace + this.innerWidth / this.labels.length * (this.hovered + 0.5)

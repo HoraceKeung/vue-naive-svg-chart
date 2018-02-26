@@ -10,7 +10,9 @@
 		</div>
 		<div class="chartCont" :id="id"><div>
 			<svg>
-				<component :is="'vnsc-'+type" :id="id" :type="type" :fontSize="fontSize" :padding="padding" :dataset="computedDataset" :labels="labels" :showLegend="showLegend" :color="color" :axesStrokeWidth="axesStrokeWidth" :stack="stack"></component>
+				<component :is="'vnsc-'+type" :id="id" :type="type" :fontSize="fontSize" :padding="padding" :dataset="computedDataset" :labels="labels"
+				:showLegend="showLegend" :color="color" :axesStrokeWidth="axesStrokeWidth" :stack="stack" :lineFill="lineFill"
+				:lineFillOpacity="lineFillOpacity"></component>
 			</svg>
 		</div></div>
 	</div>
@@ -35,7 +37,9 @@ export default {
 		showLegend: {type: Boolean, default: true},
 		color: {type: String, default: '#000'},
 		axesStrokeWidth: {type: Number, default: 2},
-		stack: {type: Boolean, default: false}
+		stack: {type: Boolean, default: false},
+		lineFill: {type: String, default: 'none'},
+		lineFillOpacity: {type: Number, default: 0.6}
 	},
 	computed: {
 		computedDataset () {
