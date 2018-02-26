@@ -85,7 +85,7 @@ const mixin = {
 				this.genericCompute(dataset)
 				this.yStepSize = this.stepBaseFactor
 				let range = this.min >= 0 ? this.max : this.max - this.min
-				while (this.innerHeight / (range / this.yStepSize) < this.fontSize * 2) {
+				while (this.innerHeight / (range / this.yStepSize) < this.fontSize * 3) {
 					this.yStepSize += this.stepBaseFactor
 					this.max = Math.ceil(this.biggest / this.yStepSize) * this.yStepSize
 					this.min = Math.floor(this.smallest / this.yStepSize) * this.yStepSize
