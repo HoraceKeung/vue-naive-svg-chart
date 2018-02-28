@@ -50,7 +50,8 @@ props: {
 	axesStrokeWidth: {type: Number, default: 2},
 	stack: {type: Boolean, default: false},
 	lineFill: {type: String, default: 'none'},
-	lineFillOpacity: {type: Number, default: 0.6}
+	lineFillOpacity: {type: Number, default: 0.6},
+	animateClass: {type: String}
 }
 ```
 - Available chart types are: `'line'`, `'column'`, and `'bar'`.
