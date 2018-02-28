@@ -1,19 +1,21 @@
 import _ from 'lodash'
-import Axes from './parts/Axes.vue'
-import PopUp from './parts/PopUp.vue'
+import GenericBase from './parts/GenericBase.vue'
 
 const mixin = {
 	generic: {
-		props: ['id', 'type', 'fontSize', 'padding', 'dataset', 'labels', 'showLegend', 'color', 'axesStrokeWidth', 'stack'],
-		components: {Axes, PopUp},
+		props: ['id', 'type', 'fontSize', 'padding', 'dataset', 'labels', 'color', 'axesStrokeWidth', 'stack', 'animateClass'],
+		components: {GenericBase},
 		mounted () {
 			this.$nextTick(() => {
 				this.compute(this.dataset)
-				window.addEventListener('resize', _.throttle(() => { this.compute(this.dataset) }, 100))
+				window.addEventListener('resize', _.throttle(() => { this.compute(this.dataset) }, 200))
+				this.checkInView()
+				window.addEventListener('scroll', _.throttle(() => { this.checkInView() }, 200))
 			})
 		},
 		beforeDestroy () {
-			window.removeEventListener('resize', _.throttle(() => { this.compute(this.dataset) }, 100))
+			window.removeEventListener('resize', _.throttle(() => { this.compute(this.dataset) }, 200))
+			window.removeEventListener('scroll', _.throttle(() => { this.checkInView() }, 200))
 		},
 		watch: {
 			dataset (newVal) { this.compute(newVal) },
@@ -28,10 +30,17 @@ const mixin = {
 				longestLabelLength: 100,
 				innerWidth: 100,
 				innerHeight: 100,
-				hovered: null
+				hovered: null,
+				inView: false
 			}
 		},
 		methods: {
+			checkInView () {
+				const rect = document.getElementById(this.id).getBoundingClientRect()
+				if (rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)) {
+					this.inView = true
+				}
+			},
 			computeStack (dataset) {
 				var output = []
 				for (let i = 0; i < dataset.length; i++) {
@@ -55,9 +64,39 @@ const mixin = {
 				this.smallest = tempDataArr.reduce((a, b) => { return Math.min(a, b) })
 				this.min = Math.floor(this.smallest / this.stepBaseFactor) * this.stepBaseFactor
 				this.min = this.min > 0 ? 0 : this.min
+			},
+			handleHover (val) {
+				this.hovered = val
 			}
 		},
 		computed: {
+			propsObj () {
+				return {
+					id: this.id,
+					type: this.type,
+					fontSize: this.fontSize,
+					padding: this.padding,
+					dataset: this.dataset,
+					labels: this.labels,
+					color: this.color,
+					axesStrokeWidth: this.axesStrokeWidth,
+					animateClass: this.animateClass,
+					innerWidth: this.innerWidth,
+					innerHeight: this.innerHeight,
+					yAxisSpace: this.yAxisSpace,
+					xAxisSpace: this.xAxisSpace,
+					hovered: this.hovered,
+					max: this.max,
+					min: this.min,
+					yStepSize: this.yStepSize,
+					xStepSize: this.xStepSize,
+					needRotateLabel: this.needRotateLabel,
+					inView: this.inView
+				}
+			},
+			needRotateLabel () {
+				return this.type === 'bar' ? false : this.longestLabelLength > this.innerWidth / this.labels.length
+			},
 			stepBaseFactor () {
 				let range = this.min >= 0 ? this.max : this.max - this.min
 				const tens = 10 ** (range.toString().length - 2)
@@ -85,7 +124,7 @@ const mixin = {
 				this.genericCompute(dataset)
 				this.yStepSize = this.stepBaseFactor
 				let range = this.min >= 0 ? this.max : this.max - this.min
-				while (this.innerHeight / (range / this.yStepSize) < this.fontSize * 3) {
+				while (this.innerHeight / (range / this.yStepSize) < this.fontSize * 2) {
 					this.yStepSize += this.stepBaseFactor
 					this.max = Math.ceil(this.biggest / this.yStepSize) * this.yStepSize
 					this.min = Math.floor(this.smallest / this.yStepSize) * this.yStepSize
@@ -96,9 +135,6 @@ const mixin = {
 		computed: {
 			yAxisSpace () {
 				return Math.max(this.max.toString().length, this.min.toString().length) * 10
-			},
-			needRotateLabel () {
-				return this.longestLabelLength > this.innerWidth / this.labels.length
 			},
 			xAxisSpace () {
 				return this.needRotateLabel ? Math.sqrt((this.longestLabelLength ** 2) / 2) : this.fontSize

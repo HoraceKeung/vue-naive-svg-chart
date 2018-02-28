@@ -1,11 +1,9 @@
 <template>
-	<g>
-		<axes :fontSize="fontSize" :padding="padding" :labels="labels" :color="color" :axesStrokeWidth="axesStrokeWidth" :innerWidth="innerWidth" :innerHeight="innerHeight" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :max="max" :min="min" :yStepSize="yStepSize" :needRotateLabel="needRotateLabel" />
+	<generic-base :propsObj="propsObj" @hover="handleHover">
 		<g v-for="c in columns" :fill="c.color">
 			<rect v-for="(r,index) in c.rect" :x="r.x" :y="r.y" :width="r.width" :height="r.height" :style="'opacity: '+(index===hovered?'0.6':'1')+';'" />
 		</g>
-		<pop-up :id="id" :dataset="dataset" :labels="labels" :innerWidth="innerWidth" :padding="padding" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :innerHeight="innerHeight" :fontSize="fontSize" :hovered.sync="hovered" />
-	</g>
+	</generic-base>
 </template>
 
 <script>
@@ -57,6 +55,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-</style>

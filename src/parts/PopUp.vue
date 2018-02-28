@@ -1,6 +1,5 @@
 <template>
 	<g>
-		<rect @mousemove="trackMouse($event, index)" @mouseover="$emit('update:hovered', index)" @mouseout="$emit('update:hovered', null)" fill="transparent" v-for="(r,index) in hoverRects" :x="r.x" :y="r.y" :width="r.w" :height="r.h" />
 		<g v-if="hovered!==null&&mousePos">
 			<line :x1="line.x1" :y1="line.y1" :x2="line.x2" :y2="line.y2" stroke="rgba(0,0,0,0.6)"/>
 			<rect :class="id+'-pop-up-rect'" :x="popUp.x" :y="popUp.y" :width="popUp.width" :height="popUp.height" :rx="fontSize/4" :ry="fontSize/4" fill="rgba(0,0,0,0.6)" />
@@ -10,6 +9,7 @@
 				<text :x="popUp.x+padding/2+fontSize*1.5" :y="popUp.y+(fontSize+padding/2)*(index+2)" fill="#fff">{{d.label+': '+d.data[hovered]}}</text>
 			</g>
 		</g>
+		<rect @mousemove="trackMouse($event, index)" @mouseover="$emit('hover', index)" @mouseout="$emit('hover', null)" fill="transparent" v-for="(r,index) in hoverRects" :x="r.x" :y="r.y" :width="r.w" :height="r.h" />
 	</g>
 </template>
 

@@ -1,6 +1,5 @@
 <template>
-	<g>
-		<axes :fontSize="fontSize" :padding="padding" :labels="labels" :color="color" :axesStrokeWidth="axesStrokeWidth" :innerWidth="innerWidth" :innerHeight="innerHeight" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :max="max" :min="min" :yStepSize="yStepSize" :needRotateLabel="needRotateLabel" />
+	<generic-base :propsObj="propsObj" @hover="handleHover">
 		<g v-for="l in lines">
 			<polyline :points="l.linePoints" :style="'fill: none; stroke: '+l.color+'; stroke-width: 2;'" />
 			<defs v-if="lineFill==='gradient'">
@@ -12,8 +11,7 @@
 			<polygon v-if="lineFill==='solid'||lineFill==='gradient'" :points="l.polygonPoints" :fill="lineFill==='solid'?l.color:'url(#'+id+'-'+l.label.split(' ').join('-')+')'" :style="'opacity: '+lineFillOpacity+';'"/>
 			<circle v-for="(p,index) in l.points" :id="id+'-'+l.label+'-data-point-'+index" :cx="p.x" :cy="p.y" :r="circleR(index)" :style="'transition: r 0.15s ease-out; fill: #fff; stroke: '+l.color+'; stroke-width: '+circleR(index)/2+';'" />
 		</g>
-		<pop-up :id="id" :dataset="dataset" :labels="labels" :innerWidth="innerWidth" :padding="padding" :yAxisSpace="yAxisSpace" :xAxisSpace="xAxisSpace" :innerHeight="innerHeight" :fontSize="fontSize" :hovered.sync="hovered" />
-	</g>
+	</generic-base>
 </template>
 
 <script>
@@ -61,6 +59,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped>
-</style>
