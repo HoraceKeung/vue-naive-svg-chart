@@ -51,7 +51,9 @@ props: {
 	stack: {type: Boolean, default: false},
 	lineFill: {type: String, default: 'none'},
 	lineFillOpacity: {type: Number, default: 0.6},
-	animateClass: {type: String}
+	animateClass: {type: String},
+	showPopUp: {type: Boolean, default: true},
+	popUpPadding: {type: Number, default: 16}
 }
 ```
 - Available chart types are: `'line'`, `'column'`, and `'bar'`.
@@ -59,6 +61,7 @@ props: {
 - Legend can be hidden by setting `'showLegend'` to `'false'`
 - `'color'` controls the colour of the axes and legend text
 - `'line'` chart can have fill below the line by setting `'lineFill'` to `'solid'` or `'gradient'`
+- Pop up can be hidden be setting `'showPopUp'` to `'false'`
 
 ## class and id
 - Pop up rect has class name of `"id+'-pop-up-rect'"` where `'id'` is the id of the chart

@@ -3,7 +3,7 @@ import GenericBase from './parts/GenericBase.vue'
 
 const mixin = {
 	generic: {
-		props: ['id', 'type', 'fontSize', 'padding', 'dataset', 'labels', 'color', 'axesStrokeWidth', 'stack', 'animateClass'],
+		props: ['id', 'type', 'fontSize', 'padding', 'dataset', 'labels', 'color', 'axesStrokeWidth', 'stack', 'animateClass', 'showPopUp', 'popUpPadding'],
 		components: {GenericBase},
 		mounted () {
 			this.$nextTick(() => {
@@ -36,9 +36,11 @@ const mixin = {
 		},
 		methods: {
 			checkInView () {
-				const rect = document.getElementById(this.id).getBoundingClientRect()
-				if (rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)) {
-					this.inView = true
+				if (!this.inView) {
+					const rect = document.getElementById(this.id).getBoundingClientRect()
+					if (rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)) {
+						this.inView = true
+					}
 				}
 			},
 			computeStack (dataset) {
@@ -91,7 +93,9 @@ const mixin = {
 					yStepSize: this.yStepSize,
 					xStepSize: this.xStepSize,
 					needRotateLabel: this.needRotateLabel,
-					inView: this.inView
+					inView: this.inView,
+					showPopUp: this.showPopUp,
+					popUpPadding: this.popUpPadding
 				}
 			},
 			needRotateLabel () {

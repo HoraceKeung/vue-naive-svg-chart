@@ -11,8 +11,8 @@
 		<div class="chartCont" :id="id"><div>
 			<svg>
 				<component :is="'vnsc-'+type" :id="id" :type="type" :fontSize="fontSize" :padding="padding" :dataset="computedDataset" :labels="labels"
-				:color="color" :axesStrokeWidth="axesStrokeWidth" :stack="stack" :lineFill="lineFill"
-				:lineFillOpacity="lineFillOpacity" :animateClass="animateClass"></component>
+				:color="color" :axesStrokeWidth="axesStrokeWidth" :stack="stack" :lineFill="lineFill" :lineFillOpacity="lineFillOpacity" :animateClass="animateClass"
+				:showPopUp="showPopUp" :popUpPadding="popUpPadding"></component>
 			</svg>
 		</div></div>
 	</div>
@@ -40,7 +40,9 @@ export default {
 		stack: {type: Boolean, default: false},
 		lineFill: {type: String, default: 'none'},
 		lineFillOpacity: {type: Number, default: 0.6},
-		animateClass: {type: String}
+		animateClass: {type: String},
+		showPopUp: {type: Boolean, default: true},
+		popUpPadding: {type: Number, default: 16}
 	},
 	computed: {
 		computedDataset () {

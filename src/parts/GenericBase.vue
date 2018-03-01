@@ -4,7 +4,7 @@
 		<transition :enter-active-class="propsObj.animateClass"><g v-show="propsObj.inView">
 			<slot />
 		</g></transition>
-		<pop-up v-bind="propsObj" @hover="handleHover" />
+		<pop-up v-if="propsObj.showPopUp" v-bind="propsObj" @hover="handleHover" />
 	</g>
 </template>
 

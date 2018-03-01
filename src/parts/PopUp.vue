@@ -3,10 +3,10 @@
 		<g v-if="hovered!==null&&mousePos">
 			<line :x1="line.x1" :y1="line.y1" :x2="line.x2" :y2="line.y2" stroke="rgba(0,0,0,0.6)"/>
 			<rect :class="id+'-pop-up-rect'" :x="popUp.x" :y="popUp.y" :width="popUp.width" :height="popUp.height" :rx="fontSize/4" :ry="fontSize/4" fill="rgba(0,0,0,0.6)" />
-			<text :x="popUp.x+padding/2" :y="popUp.y+fontSize+padding/2" fill="#fff">{{typeof labels[hovered] === 'string' ? labels[hovered] : labels[hovered].popUp}}</text>
+			<text :x="popUp.x+popUpPadding" :y="popUp.y+fontSize+popUpPadding" fill="#fff">{{typeof labels[hovered] === 'string' ? labels[hovered] : labels[hovered].popUp}}</text>
 			<g v-for="(d,index) in dataset">
-				<rect :x="popUp.x+padding/2" :y="popUp.y+padding/2+(fontSize+padding/2)*(index+1)" :width="fontSize" :height="fontSize" :fill="d.color" :rx="fontSize/2" :ry="fontSize/2" />
-				<text :x="popUp.x+padding/2+fontSize*1.5" :y="popUp.y+(fontSize+padding/2)*(index+2)" fill="#fff">{{d.label+': '+d.data[hovered]}}</text>
+				<rect :x="popUp.x+popUpPadding" :y="popUp.y+popUpPadding+fontSize*1.5*(index+1)" :width="fontSize" :height="fontSize" :fill="d.color" :rx="fontSize/2" :ry="fontSize/2" />
+				<text :x="popUp.x+popUpPadding+fontSize*1.5" :y="popUp.y+popUpPadding+fontSize*1.5*(index+1)+fontSize" fill="#fff">{{d.label+': '+d.data[hovered]}}</text>
 			</g>
 		</g>
 		<rect @mousemove="trackMouse($event, index)" @mouseover="$emit('hover', index)" @mouseout="$emit('hover', null)" fill="transparent" v-for="(r,index) in hoverRects" :x="r.x" :y="r.y" :width="r.w" :height="r.h" />
@@ -15,7 +15,7 @@
 
 <script>
 export default {
-	props: ['id', 'dataset', 'labels', 'innerWidth', 'padding', 'yAxisSpace', 'xAxisSpace', 'innerHeight', 'fontSize', 'type', 'hovered'],
+	props: ['id', 'dataset', 'labels', 'innerWidth', 'padding', 'yAxisSpace', 'xAxisSpace', 'innerHeight', 'fontSize', 'type', 'hovered', 'popUpPadding'],
 	computed: {
 		line () {
 			const X = this.padding + this.yAxisSpace + this.innerWidth / this.labels.length * (this.hovered + 0.5)
@@ -43,8 +43,8 @@ export default {
 			})
 			const labelText = typeof this.labels[this.hovered] === 'string' ? this.labels[this.hovered] : this.labels[this.hovered].popUp
 			lengths.push(labelText.length * 10)
-			const w = lengths.reduce((a, b) => { return Math.max(a, b) }) + this.padding
-			const h = this.padding * (1 + this.dataset.length / 2) + (this.dataset.length + 1) * this.fontSize
+			const w = lengths.reduce((a, b) => { return Math.max(a, b) }) + this.popUpPadding * 2
+			const h = this.popUpPadding * 2 + this.dataset.length * this.fontSize * 1.5 + this.fontSize
 			return {
 				x: this.mousePos.x + this.fontSize + w > this.innerWidth + this.padding + this.yAxisSpace ? this.mousePos.x - this.fontSize - w : this.mousePos.x + this.fontSize,
 				y: this.mousePos.y + this.fontSize + h > this.innerHeight + this.padding + this.xAxisSpace ? this.mousePos.y - this.fontSize - h : this.mousePos.y + this.fontSize,
