@@ -38,7 +38,7 @@ const mixin = {
 			checkInView () {
 				if (!this.inView) {
 					const rect = document.getElementById(this.id).getBoundingClientRect()
-					if (rect.bottom >= 0 || rect.top <= (window.innerHeight || document.documentElement.clientHeight)) {
+					if (rect.top <= (window.innerHeight || document.documentElement.clientHeight)) {
 						this.inView = true
 					}
 				}
