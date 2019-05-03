@@ -8,6 +8,7 @@ const mixin = {
 		components: {GenericBase},
 		mounted () {
 			this.$nextTick(() => {
+				this.compute(this.dataset)
 				window.addEventListener('resize', throttle(() => { this.compute(this.dataset) }, 200))
 				this.checkInView()
 				window.addEventListener('scroll', throttle(() => { this.checkInView() }, 200))
