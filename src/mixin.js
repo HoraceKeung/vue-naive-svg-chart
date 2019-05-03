@@ -8,7 +8,6 @@ const mixin = {
 		components: {GenericBase},
 		mounted () {
 			this.$nextTick(() => {
-				setTimeout(() => { this.compute(this.dataset) }, 100)
 				window.addEventListener('resize', throttle(() => { this.compute(this.dataset) }, 200))
 				this.checkInView()
 				window.addEventListener('scroll', throttle(() => { this.checkInView() }, 200))
@@ -40,6 +39,7 @@ const mixin = {
 				if (!this.inView) {
 					const rect = document.getElementById(this.id).getBoundingClientRect()
 					if (rect.top >= -200 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + 200) {
+						this.compute(this.dataset)
 						this.inView = true
 					}
 				}
