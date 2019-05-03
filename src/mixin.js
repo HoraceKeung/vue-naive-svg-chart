@@ -1,5 +1,6 @@
-import _ from 'lodash'
 import GenericBase from './parts/GenericBase.vue'
+import throttle from 'lodash.throttle'
+import flatten from 'lodash.flatten'
 
 const mixin = {
 	generic: {
@@ -7,15 +8,15 @@ const mixin = {
 		components: {GenericBase},
 		mounted () {
 			this.$nextTick(() => {
-				this.compute(this.dataset)
-				window.addEventListener('resize', _.throttle(() => { this.compute(this.dataset) }, 200))
+				setTimeout(() => { this.compute(this.dataset) }, 100)
+				window.addEventListener('resize', throttle(() => { this.compute(this.dataset) }, 200))
 				this.checkInView()
-				window.addEventListener('scroll', _.throttle(() => { this.checkInView() }, 200))
+				window.addEventListener('scroll', throttle(() => { this.checkInView() }, 200))
 			})
 		},
 		beforeDestroy () {
-			window.removeEventListener('resize', _.throttle(() => { this.compute(this.dataset) }, 200))
-			window.removeEventListener('scroll', _.throttle(() => { this.checkInView() }, 200))
+			window.removeEventListener('resize', throttle(() => { this.compute(this.dataset) }, 200))
+			window.removeEventListener('scroll', throttle(() => { this.checkInView() }, 200))
 		},
 		watch: {
 			dataset (newVal) { this.compute(newVal) },
@@ -60,7 +61,7 @@ const mixin = {
 				}).sort((a, b) => { return b.length - a.length })[0].length * 10
 				this.innerWidth = ele.getBoundingClientRect().width - (this.padding * 2) - this.yAxisSpace
 				this.innerHeight = ele.getBoundingClientRect().height - (this.padding * 2) - this.xAxisSpace
-				const tempDataArr = (this.type === 'column' || this.type === 'bar') && this.stack ? this.computeStack(dataset) : _.flatten(dataset.map(d => { return d.data }))
+				const tempDataArr = (this.type === 'column' || this.type === 'bar') && this.stack ? this.computeStack(dataset) : flatten(dataset.map(d => { return d.data }))
 				this.biggest = tempDataArr.reduce((a, b) => { return Math.max(a, b) })
 				this.max = Math.ceil(this.biggest / this.stepBaseFactor) * this.stepBaseFactor
 				this.smallest = tempDataArr.reduce((a, b) => { return Math.min(a, b) })

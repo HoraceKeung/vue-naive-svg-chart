@@ -5,12 +5,13 @@
   "main": "dist/vue-naive-svg-chart.js",
   "scripts": {
     "build": "rimraf ./dist && webpack --config ./webpack.config.js",
-    "bpp": "npm run build && git add . && git commit -m 'quick build' && git push && npm version patch && npm publish && git push"
+    "bpp": "npm run build && git add . && git commit -m quick && git push && npm version patch && npm publish && git push"
   },
   "author": "Horace Keung",
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash.flatten": "^4.4.0",
+    "lodash.throttle": "^4.1.1"
   },
   "repository": {
     "type": "git",
